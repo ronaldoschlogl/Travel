@@ -1,0 +1,3 @@
+0xFF0E7886 //verde escuro
+0xFF15BDB1 // verde claro
+0xFFFF757C // pink

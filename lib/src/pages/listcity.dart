@@ -18,7 +18,7 @@ class _ListCityPageState extends State<ListCityPage> {
   TextStyle styles = TextStyle(
       fontSize: 21, fontWeight: FontWeight.bold, fontFamily: 'Helvetica Neue');
 
-  void cityBoxAction(pageContext, cityData) {
+  void cityBoxAction(pageContext, Map<String, dynamic> cityData) {
     Navigator.pushNamed(pageContext, "/city", arguments: cityData);
   }
 

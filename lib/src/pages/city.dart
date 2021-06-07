@@ -8,6 +8,7 @@ class CityPage extends StatefulWidget {
 }
 
 class _CityPageState extends State<CityPage> {
+  bool heart = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   TextStyle styles = TextStyle(
@@ -23,6 +24,7 @@ class _CityPageState extends State<CityPage> {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final double footerHeight = MediaQuery.of(context).padding.bottom;
 
     var starRate = double.parse(cityData['review']).floor();
     var stars = [];
@@ -33,8 +35,9 @@ class _CityPageState extends State<CityPage> {
         stars.add(false);
       }
     }
-    return Consumer<AppData>(
-      builder: (ctx, appdata, child) => Scaffold(
+    return Consumer<AppData>(builder: (ctx, appdata, child) {
+      heart = appdata.hasFavorite(cityData['name']);
+      return Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.white,
         body: Stack(
@@ -130,9 +133,15 @@ class _CityPageState extends State<CityPage> {
                           Container(
                             margin: EdgeInsets.all(10),
                             child: IconButton(
-                              icon: Icon(Icons.favorite_border),
+                              icon: Icon(heart
+                                  ? Icons.favorite
+                                  : Icons.favorite_border),
                               color: Colors.red,
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  heart = appdata.favorite(cityData['name']);
+                                });
+                              },
                             ),
                           )
                         ],
@@ -154,7 +163,7 @@ class _CityPageState extends State<CityPage> {
                         thickness: 1,
                       ),
                       Container(
-                        margin: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(top: 10, bottom: 10),
                         child: Text(
                           "Principais pontos turisticos",
                           style: TextStyle(
@@ -163,6 +172,54 @@ class _CityPageState extends State<CityPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                      ),
+                      GridView.count(
+                        padding: EdgeInsets.only(bottom: footerHeight),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        childAspectRatio: 10 / 11,
+                        children:
+                            List.generate(cityData['places'].length, (index) {
+                          return Container(
+                            child: Column(children: [
+                              Expanded(
+                                child: AspectRatio(
+                                  aspectRatio: 1 / 1,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(
+                                      cityData['places'][index]['img'],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                child: Text(
+                                  cityData['places'][index]['name'],
+                                  style: TextStyle(
+                                      fontFamily: 'Helvetica Neue',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 15),
+                                child: Text(
+                                  "Ponto turístico",
+                                  style: TextStyle(
+                                      fontFamily: 'Helvetica Neue',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey),
+                                ),
+                              ),
+                            ]),
+                          );
+                        }),
                       )
                     ],
                   ),
@@ -184,7 +241,7 @@ class _CityPageState extends State<CityPage> {
             ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

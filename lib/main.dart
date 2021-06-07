@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
 import 'package:travel/src/pages/city.dart';
+import 'package:travel/src/pages/favorites.dart';
 import 'package:travel/src/pages/listcity.dart';
 import 'package:travel/src/pages/search.dart';
 import 'src/models/appdata.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/continent': (context) => ContinentPage(),
         '/listcity': (context) => ListCityPage(),
         '/city': (context) => CityPage(),
+        '/favorites': (context) => FavoritesPage(),
       },
       initialRoute: '/preload',
     );

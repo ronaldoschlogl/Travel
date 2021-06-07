@@ -5,6 +5,7 @@ import 'package:travel/src/partials/citybox.dart';
 import 'package:travel/src/partials/customDrawer.dart';
 import 'package:travel/src/partials/customappbar.dart';
 
+// ignore: must_be_immutable
 class ListCityPage extends StatefulWidget {
   ListCityPage({this.currentIndex});
   int? currentIndex;
